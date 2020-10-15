@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click = 'search'>
+            查询
+        </button>
+        <p>您要查询的是: {{ searchMap.keyWord }}</p>
+        <p><a v-bind:href="result.site" target="_blank">{{ result.title }}</a></p>
+
+        <button v-on:click = 'f1'>
+            查询2
+        </button>
+    </div>
+    <script src="vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                searchMap : {
+                    keyword : 'test'
+                },
+                result: {}
+            },
+            methods: {
+                search() {
+                    console.log('searching...');
+                    this.result = {
+                        "title":"尚硅谷",
+                        "site":"http://www.atguigu.com"
+                    }
+                },
+                f1() {
+                    console.log('1111')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
