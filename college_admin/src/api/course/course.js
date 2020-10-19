@@ -36,5 +36,20 @@ export default {
             data: courseInfo
         })
     },
-    
+
+    //5. 课程确认信息显示
+    getCourseInfoId(id) {
+        return request({
+            url: `/serviceedu/edu-course/getPublishCourseInfo/` + id,
+            method: 'get',
+        })
+    },
+
+    // 6. 发布
+    publishCourse(id) {
+        return request({
+            url: `/serviceedu/edu-course/publicCourse/` + id,
+            method: 'post'
+        })
+    }
 }
