@@ -51,5 +51,29 @@ export default {
             url: `/serviceedu/edu-course/publicCourse/` + id,
             method: 'post'
         })
+    },
+
+    // 课程列表
+
+    getListCourse() {
+        return request({
+            url: `/serviceedu/edu-course/getCourseList/`,
+            method: 'get'
+        })
+    },
+
+    getPageList(page, limit, searchObj) {
+        return request({
+            url: `/serviceedu/edu-course/pageQuery/${page}/${limit}`,
+            method: 'post',
+            data: searchObj 
+        })
+    },
+
+    removeById(id) {
+        return request({
+            url: `/serviceedu/edu-course/deleteCourse/${id}`,
+            method: 'delete',
+        })
     }
 }

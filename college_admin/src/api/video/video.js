@@ -30,5 +30,14 @@ export default {
       url:'/serviceedu/edu-video/deleteVideo/' + id,
       method:'delete'
     })
+  },
+
+  removeVideo(id) {
+    return request({
+      url:'/eduvod/video/removeVideo/' + id,
+      method:'delete'
+    })
   }
+    
+  
 }

@@ -86,7 +86,7 @@
             :before-remove="beforeVodRemove"
             :on-exceed="handleUploadExceed"
             :file-list="fileList"
-            :action="BASE_API+'/eduvod/video/uploadAlyiVideo'"
+            :action="BASE_API+'/eduvod/video/uploadVideo'"
             :limit="1"
             class="upload-demo">
         <el-button size="small" type="primary">上传视频</el-button>
@@ -133,10 +133,11 @@ export default {
         title: '',
         sort: 0,
         free: 0,
-        videoSourceId: ''
+        videoSourceId: '',
+        videoOriginalName: ''
       },
       fileList: [],//上传文件列表
-     BASE_API: process.env.BASE_API // 接口API地址
+      BASE_API: process.env.BASE_API // 接口API地址
     }
   },
 
@@ -267,6 +268,7 @@ export default {
     //===========小节操作=========
 
     openVideo(chapterId) {
+      
       //弹框
       this.dialogVideoFormVisible = true
       //设置章节id
@@ -343,16 +345,35 @@ export default {
       })
     },
 
+    //成功回调
     handleVodUploadSuccess(response, file, fileList) {
         //上传视频id赋值
         this.video.videoSourceId = response.data.videoId
         //上传视频名称赋值
         this.video.videoOriginalName = file.name
     },
+
+    //视图上传多于一个视频
     handleUploadExceed() {
         this.$message.warning('想要重新上传视频，请先删除已上传的视频')
     },
 
+    handleVodRemove() {
+      video.removeVideo(this.video.videoSourceId).then(response => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+        this.fileList = []
+        this.video.videoSourceId = ''
+        //上传视频名称赋值
+        this.video.videoOriginalName = ''
+      })
+    },
+
+    beforeVodRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}?`)
+    }
 
 
   }

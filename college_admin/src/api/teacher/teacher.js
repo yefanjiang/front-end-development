@@ -41,6 +41,13 @@ export default {
             method: 'post',
             data: teacher
         })
+    },
+
+    getList() {
+        return request({
+            url: `/serviceedu/edu-teacher/findAll`,
+            method: 'get'
+        })
     }
 }
 
