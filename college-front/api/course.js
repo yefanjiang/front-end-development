@@ -14,5 +14,12 @@ export default {
         url: `/serviceedu/edu-subject/getAllSubject`,
         method: 'get'
         })
+    },
+
+    getCourseInfo(courseId) {
+        return request({
+            url: `/serviceedu/coursefront/getFrontCourseInfo/${courseId}`,
+            method: 'get'
+        })
     }
 }
