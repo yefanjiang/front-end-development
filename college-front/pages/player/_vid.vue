@@ -36,7 +36,7 @@ export default {
             encryptType: '1', // 如果播放加密视频，则需设置encryptType=1，非加密视频无需设置此项
             width: '100%',
             height: '500px',
-            // 以下可选设置
+            // 以下可选设置y
             cover: 'http://guli.shop/photo/banner/1525939573202.jpg', // 封面
             qualitySort: 'asc', // 清晰度排序
 

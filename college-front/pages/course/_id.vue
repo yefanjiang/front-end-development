@@ -19,7 +19,7 @@
     <div>
         <article class="c-v-pic-wrap" style="height: 357px;">
             <section id="videoPlay" class="p-h-video-box">
-                <img :src="course.cover" :alt="course.title" class="dis c-v-pic">
+                <img height="357px" :src="course.cover" :alt="course.title" class="dis c-v-pic">
             </section>
         </article>
         <aside class="c-attr-wrap">
@@ -40,13 +40,16 @@
                         <a class="c-fff vam" title="收藏" href="#" >收藏</a>
                     </span>
                 </section>
-                <section class="c-attr-mt">
-                    <a href="#" title="立即观看" class="comm-btn c-btn-3">立即观看</a>
+                <section v-if="isbuy || Number(course.price)===0" class="c-attr-mt">
+                    <a href="#" title="立即观看" class="comm-btn c-btn-3" >立即观看</a>
+                </section>
+                <section v-else class="c-attr-mt">
+                    <a href="#" title="立即购买" class="comm-btn c-btn-3" @click="createOrder()">立即购买</a>
                 </section>
             </section>
         </aside>
         <aside class="thr-attr-box">
-            <ol class="thr-attr-ol clearfix">
+            <ol class="thr-attr-ol ">
                 <li>
                     <p>&nbsp;</p>
                     <aside>
@@ -179,15 +182,54 @@
 
 <script>
 import courseApi from "@/api/course"
+import orderApi from "@/api/orders"
 export default {
-  asyncData({ params, error }) {
-    return courseApi.getCourseInfo(params.id).then(response => {
-      //console.log(response);
-      return { 
-        course: response.data.data.courseWebVo,
-        chapterList: response.data.data.chapterVideoList
-      }
-    })
-  }
+//   asyncData({ params, error }) {
+//     return courseApi.getCourseInfo(params.id).then(response => {
+//       //console.log(response);
+//       return { 
+//         course: response.data.data.courseWebVo,
+//         chapterList: response.data.data.chapterVideoList,
+//         courseId: params.id
+//       }
+//     })
+//   },
+
+    asyncData({ params, error }) {
+        return {courseId: params.id}
+    },
+
+    data() {
+    return {
+        course: {},
+        chapterList: [],
+        isbuy: false,
+        }
+    },
+
+    created() {
+        this.initCourseInfo()
+    },
+
+    methods:{
+    initCourseInfo() {
+        courseApi.getCourseInfo(this.courseId)
+        .then(response => {
+            this.course=response.data.data.courseWebVo,
+            this.chapterList=response.data.data.chapterVideoList,
+            this.isbuy=response.data.data.isBuy
+        })
+    },
+
+    //根据课程id，调用接口方法生成订单
+    createOrder(){
+        orderApi.createOrder(this.courseId).then(response => {
+            if(response.data.success){
+                //订单创建成功，跳转到订单页面
+                this.$router.push({ path: '/order/'+ response.data.data.orderId })
+            }
+        })
+    },
+}
 }
 </script>
