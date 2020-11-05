@@ -62,8 +62,7 @@ export default {
     methods: {
     submitLogin(){
             loginApi.submitLogin(this.user).then(response => {
-            if(response.data.success){
- 
+            //if(response.data.success){
                 //把token存在cookie中、也可以放在localStorage中
                 cookie.set('college_token', response.data.data.token, { domain: 'localhost' })
                 //登录成功根据token获取用户信息
@@ -75,7 +74,7 @@ export default {
                 //跳转页面
                 window.location.href = "/";
                 })
-            }
+            //}
             })
     },
 
